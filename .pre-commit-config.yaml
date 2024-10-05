@@ -12,3 +12,18 @@ repos:
     rev: 0.1.2
     hooks:
       - id: tidy-gitignore
+
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v2.0.2
+    hooks:
+      - id: autopep8
+
+-   repo: https://github.com/asottile/reorder_python_imports
+    rev: v3.9.0
+    hooks:
+      - id: reorder-python-imports
+
+-   repo: https://github.com/mattlqx/pre-commit-search-and-replace
+    rev: v1.0.5
+    hooks:
+      - id: search-and-replace

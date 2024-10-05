@@ -1,8 +1,14 @@
 version: "3"
 
 services:
-  app:
+  deply-now:
+    container_name: deploy-now
     build:
       context: .
       dockerfile: Dockerfile
-    restart: always
+    network_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./src/logs.txt:/app/logs.txt
+    labels:
+      - deploy-now.enable=false

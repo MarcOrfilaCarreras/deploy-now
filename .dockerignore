@@ -1,7 +1,6 @@
 **/README.md
 **/LICENSE.md
-
-**/.pre-commit-config.yaml
+**/docs
 
 **/docker-compose.yml
 **/Dockerfile
@@ -10,3 +9,8 @@
 **/.github
 **/.git
 **/.gitignore
+
+**/__pycache__
+**/.venv
+
+**/.pre-commit-config.yaml

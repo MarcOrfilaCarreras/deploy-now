@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block page %}
+<script src="/static/_/js/main.js"></script>
+
+<script src="/static/_/js/components/title.js"></script>
+<script src="/static/_/js/components/inputs/search.js"></script>
+
+<main style="display: flex; flex-direction: column; align-items: center; padding: 30px; gap: 20px;">
+    <c-title type="h1" text="Deploy Now" image="/static/_/images/favicon.png"></c-title>
+    <c-title type="h2" text="Deploy in seconds, explore for as long as you want" ></c-title>
+    <c-search-input container-id="containers" tag="c-card" style="max-width: 800px; width: 100%; margin-top: 20px;"></c-search-input>
+    <div id="containers" style="max-width: 1220px; width: 100%; display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));"></div>
+</main>
+
+<script>
+    loadContainers();
+</script>
+
+{% endblock %}

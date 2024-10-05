@@ -1,0 +1,7 @@
+# Python
+.venv/
+__pycache__
+
+# App
+containers.lock
+logs.txt

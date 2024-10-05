@@ -1,6 +1,16 @@
-FROM alpine
+FROM python:3.10-slim
 
-COPY . /app
+ENV FLASK_APP=app.py
 
-ENTRYPOINT [ "sleep" ]
-CMD [ "3600" ]
+RUN mkdir -p /app
+WORKDIR /app
+
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir gunicorn
+
+COPY src/ /app/
+
+EXPOSE 8080
+
+CMD ["gunicorn", "-w", "3", "-b", "0.0.0.0:8080", "--timeout", "120", "app:app"]

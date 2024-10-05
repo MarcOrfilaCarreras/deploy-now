@@ -1,62 +1,47 @@
-# Project Title
+# Deploy now
 
-Description of the project.
+A platform that allows you to deploy various services on demand to exhibit projects for up to 10 minutes.
 
 ## Installation
 
-### With Docker
+### With Docker (Recommended)
 
 1. Clone the Repository:
 ```bash
-git clone <url>
+git clone https://github.com/MarcOrfilaCarreras/deploy-now.git
 ```
 
 2. Navigate to Project Directory:
 ```bash
-cd <folder>
+cd deploy-now
 ```
 
-3. Build the Docker Image:
+3. Build and run the Docker container:
 ```bash
-docker build -t <project-name>:latest .
-```
-
-4. Run the Docker Container:
-```bash
-docker run --rm <project-name>:latest
+docker compose up -d --build
 ```
 
 ### Without Docker
 
 1. Clone the Repository:
 ```bash
-git clone <url>
+git clone https://github.com/MarcOrfilaCarreras/deploy-now.git
 ```
 
 2. Navigate to Project Directory:
 ```bash
-cd <project-name>
+cd deploy-now
 ```
 
-3. Install dependencies:
+3. Install the dependencies:
 ```bash
-# Add installation command here
+pip install -r requirements.txt
 ```
 
-4. Run the tool:
+4. Run the project:
 ```bash
-# Add command to run the tool here
+python3 ./src/app.py
 ```
-
-## Usage
-
-1. Run the Tool:
-    - Open a terminal or command prompt.
-    - Use the `cd` command to navigate to the directory where the tool is located.
-    - Run the tool with appropriate parameters.
-
-2. Additional Notes:
-    - Review the tool's documentation for additional options and usage instructions.
 
 ## License
 
