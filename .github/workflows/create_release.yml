@@ -1,0 +1,32 @@
+name: Create Release
+
+on:
+  repository_dispatch:
+    types:
+      - 'create_release'
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    name: Publish New Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate release tag
+        uses: amitsingh-007/next-release-tag@v2.2.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.release_tag }}
+          release_name: Release ${{ env.release_tag }}

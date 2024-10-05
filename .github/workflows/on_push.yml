@@ -1,0 +1,28 @@
+name: Run Workflows On Push
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'main'
+    paths-ignore:
+      - '**/README.md'
+
+  workflow_dispatch:
+
+jobs:
+  run:
+    name: Run Workflows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Create Release Workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.TOKEN_GITHUB }}
+          event-type: create_release
+
+      - name: Trigger Docker Workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.TOKEN_GITHUB }}
+          event-type: docker
