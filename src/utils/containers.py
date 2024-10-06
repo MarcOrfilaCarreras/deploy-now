@@ -18,18 +18,9 @@ def read_containers_lock():
 
 
 def write_container_lock(id: str):
-    rows = [[id, datetime.datetime.now()] if row[0] ==
-            id else row for row in read_containers_lock()]
+    rows = [row for row in read_containers_lock() if row[0] != id]
 
-    found = False
-
-    for row in rows:
-        if row[0] == id:
-            row[1] = datetime.datetime.now()
-            found = True
-
-    if found == False:
-        rows.append([id, datetime.datetime.now()])
+    rows.append([id, datetime.datetime.now()])
 
     with open("containers.lock", "w", newline='') as lockfile:
         writer = csv.writer(lockfile)
