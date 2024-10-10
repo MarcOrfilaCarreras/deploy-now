@@ -65,7 +65,7 @@ def stop_docker_containers_automatically_job():
 
         time_difference = abs(datetime.datetime.now() - started)
 
-        if time_difference >= datetime.timedelta(seconds=10):
+        if time_difference >= datetime.timedelta(minutes=10):
             docker_client.stop_container(id=id)
             delete_container_lock(id)
 
@@ -73,5 +73,5 @@ def stop_docker_containers_automatically_job():
 def stop_docker_containers_automatically(interval: int = 10):
     scheduler = BackgroundScheduler()
     scheduler.add_job(stop_docker_containers_automatically_job,
-                      "interval", seconds=interval)
+                      "interval", minutes=interval)
     scheduler.start()
