@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  first-service:
+    image: nginxdemos/hello
+    container_name: first-website
+    ports:
+      - 127.0.0.1:9000:80
+    labels:
+      - deploy-now.enable=true
+      - deploy-now.description=Simple web server
+
+  second-service:
+    image: nginxdemos/hello
+    container_name: second-website
+    ports:
+      - 127.0.0.1:9001:80
+    labels:
+      - deploy-now.enable=true
+      - deploy-now.description=Simple web server
+
+  redis-server:
+    image: redis:latest
+    container_name: redis-server
+    ports:
+      - 127.0.0.1:6379:6379

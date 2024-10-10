@@ -15,7 +15,8 @@ start_logging(app=app)
 stop_docker_containers_automatically()
 
 docker_client = Client()
-docker_client.stop_containers()
+with app.app_context():
+    docker_client.stop_containers()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")

@@ -44,7 +44,6 @@ class Container(object):
 
                 return docker_client.start_container(id=self.id)
             except docker.errors.DockerException as e:
-                print(e)
                 return False
 
     def to_dict(self):
