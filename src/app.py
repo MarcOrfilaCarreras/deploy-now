@@ -12,10 +12,11 @@ app.config.from_object(Production)
 register_blueprints(app=app, path="routes")
 
 start_logging(app=app)
-stop_docker_containers_automatically()
 
 docker_client = Client()
+
 with app.app_context():
+    stop_docker_containers_automatically()
     docker_client.stop_containers()
 
 if __name__ == "__main__":
