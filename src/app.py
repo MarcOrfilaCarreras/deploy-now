@@ -1,4 +1,3 @@
-import sentry_sdk
 from config import Development
 from config import Production
 from flask import Flask
@@ -7,11 +6,6 @@ from utils.containers import stop_docker_containers_automatically
 from utils.routes import register_blueprints
 from utils.routes import start_logging
 
-sentry_sdk.init(
-    dsn="https://e36f3f6966e66c8d5a0ab6a1ba0a3458@o4508100162486272.ingest.de.sentry.io/4508100164649040",
-    traces_sample_rate=1.0,
-    profiles_sample_rate=1.0,
-)
 
 app = Flask(__name__)
 app.config.from_object(Production)

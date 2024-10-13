@@ -3,5 +3,4 @@
 __pycache__
 
 # App
-containers.lock
-logs.txt
+requests.log

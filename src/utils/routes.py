@@ -70,7 +70,7 @@ def start_logging(app):
             g.log_data['status_code'] = response.status_code
             g.log_data['execution_time'] = execution_time
 
-            with open('logs.txt', 'a') as f:
+            with open('requests.log', 'a') as f:
                 f.write(
                     f"{g.log_data['timestamp']}, {g.log_data['ip']}, {g.log_data['path']}, {g.log_data['method']}, {g.log_data['status_code']}, {g.log_data['execution_time']} seconds\n")
 

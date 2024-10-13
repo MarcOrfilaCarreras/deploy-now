@@ -11,7 +11,7 @@ from models.redis.db import DB as RedisDB
 from utils.proxy import ProxySession
 from utils.proxy import replace_content
 
-blueprint = Blueprint('proxy', __name__)
+blueprint = Blueprint('app-proxy', __name__)
 
 docker_client = DockerClient()
 redis_client = None
@@ -77,7 +77,7 @@ def proxy(service, subpath):
         response_headers.append(
             ('Set-Cookie', f'{cookie.name}={cookie.value}; Path=/'))
 
-    return Response(replace_content(response.content, f"/app/{id}").encode('utf-8'), response.status_code, response_headers)
+    return Response(replace_content(response.content, f"/app/{service}").encode('utf-8'), response.status_code, response_headers)
 
 
 def register_plugin(app):
