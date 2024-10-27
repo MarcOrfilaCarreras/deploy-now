@@ -7,6 +7,8 @@ from models.redis.db import DB as RedisDB
 
 redis_client = None
 
+# TODO: Improve this
+
 
 def read_containers_lock():
     global redis_client

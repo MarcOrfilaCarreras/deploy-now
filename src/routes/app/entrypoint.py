@@ -77,7 +77,7 @@ def proxy(service, subpath):
         response_headers.append(
             ('Set-Cookie', f'{cookie.name}={cookie.value}; Path=/'))
 
-    return Response(replace_content(response.content, f"/app/{service}").encode('utf-8'), response.status_code, response_headers)
+    return Response(replace_content(response.content, f"/app/{service}"), response.status_code, response_headers)
 
 
 def register_plugin(app):

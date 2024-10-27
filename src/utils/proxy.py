@@ -32,7 +32,7 @@ def replace_url_in_tag(content: str, new_url: str, attribute: str) -> str:
             tag[attribute] = new_url + "/" + current_url
             continue
 
-    return str(soup)
+    return str(soup).encode('utf-8')
 
 
 def replace_content(content: str, url: str) -> str:
