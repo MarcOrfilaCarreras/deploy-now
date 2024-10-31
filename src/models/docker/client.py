@@ -1,13 +1,13 @@
 import docker
 from models.docker.container import Container
 from models.docker.container import ContainerState
-from utils.containers import delete_container_lock
-from utils.containers import write_container_lock
+from utils.containers import ContainersLock
 
 
 class Client(object):
     def __init__(self):
         self.env = docker.from_env()
+        self.containers_lock = ContainersLock()
 
     def get_container(self, *, id: str = None):
         if id is None:
@@ -48,7 +48,7 @@ class Client(object):
 
             container.start()
 
-            write_container_lock(container.id)
+            self.containers_lock.write(container.id)
 
             return True
 
@@ -64,7 +64,7 @@ class Client(object):
 
             container.stop()
 
-            delete_container_lock(id)
+            self.containers_lock.delete(id)
 
             return True
 

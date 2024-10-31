@@ -7,57 +7,42 @@ from models.redis.db import DB as RedisDB
 
 redis_client = None
 
-# TODO: Improve this
 
+class ContainersLock(object):
+    client = None
 
-def read_containers_lock():
-    global redis_client
+    def __init__(self):
+        if ContainersLock.client is None:
+            ContainersLock.client = RedisClient(
+                host=current_app.config["REDIS_HOST"], port=current_app.config["REDIS_HOST_PORT"])
+            ContainersLock.client.connect(RedisDB.CONTAINERS_LOCK)
 
-    if redis_client is None:
-        redis_client = RedisClient(
-            host=current_app.config["REDIS_HOST"], port=current_app.config["REDIS_HOST_PORT"])
-        redis_client.connect(RedisDB.CONTAINERS_LOCK)
+    def read(self):
+        try:
+            return ContainersLock.client.get(all=True)
+        except Exception as e:
+            return []
 
-    try:
-        return redis_client.get(all=True)
-    except Exception as e:
-        return []
+    def write(self, id: str):
+        try:
+            ContainersLock.client.set(
+                id, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        except Exception as e:
+            return False
 
-
-def write_container_lock(id: str) -> bool:
-    global redis_client
-
-    if redis_client is None:
-        redis_client = RedisClient(
-            host=current_app.config["REDIS_HOST"], port=current_app.config["REDIS_HOST_PORT"])
-        redis_client.connect(RedisDB.CONTAINERS_LOCK)
-
-    try:
-        redis_client.set(id, datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M:%S.%f"))
-    except Exception as e:
-        return False
-
-
-def delete_container_lock(id: str):
-    global redis_client
-
-    if redis_client is None:
-        redis_client = RedisClient(
-            host=current_app.config["REDIS_HOST"], port=current_app.config["REDIS_HOST_PORT"])
-        redis_client.connect(RedisDB.CONTAINERS_LOCK)
-
-    try:
-        redis_client.delete(id)
-    except Exception as e:
-        return False
+    def delete(self, id: str):
+        try:
+            ContainersLock.client.delete(id)
+        except Exception as e:
+            return False
 
 
 def stop_docker_containers_automatically_job():
     from models.docker.client import Client
     docker_client = Client()
+    containers_lock = ContainersLock()
 
-    containers = read_containers_lock()
+    containers = containers_lock.read()
     datetime_format = "%Y-%m-%d %H:%M:%S.%f"
 
     for container in containers:
@@ -69,7 +54,7 @@ def stop_docker_containers_automatically_job():
 
         if time_difference >= datetime.timedelta(minutes=10):
             docker_client.stop_container(id=id)
-            delete_container_lock(id)
+            containers_lock.delete(id)
 
 
 def stop_docker_containers_automatically(interval: int = 10):
