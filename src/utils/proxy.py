@@ -6,6 +6,58 @@ from bs4 import BeautifulSoup
 from flask import session
 
 
+def detect_file_type(url: str):
+    # Pls help me, this is horrible
+
+    # Text files
+    if url.endswith(".htm") or url.endswith(".html"):
+        return "text/html"
+    if url.endswith(".js") or url.endswith(".mjs"):
+        return "text/javascript"
+    if url.endswith(".css"):
+        return "text/css"
+    if url.endswith(".json"):
+        return "text/json"
+    if url.endswith(".xhtml"):
+        return "application/xhtml+xml"
+
+    # Images
+    if url.endswith(".jpeg") or url.endswith(".jpg"):
+        return "image/jpeg"
+    if url.endswith(".png"):
+        return "image/png"
+    if url.endswith(".svg"):
+        return "image/svg+xml"
+    if url.endswith(".webp"):
+        return "image/webp"
+    if url.endswith(".apng"):
+        return "image/apng"
+    if url.endswith(".avif"):
+        return "image/avif"
+    if url.endswith(".gif"):
+        return "image/gif"
+    if url.endswith(".ico"):
+        return "image/vnd.microsoft.icon"
+
+    # Video
+    if url.endswith(".avi"):
+        return "video/x-msvideo"
+    if url.endswith(".mp4"):
+        return "video/mp4"
+    if url.endswith(".webm"):
+        return "video/webm"
+
+    # Audio
+    if url.endswith(".mp3") or url.endswith(".mpeg"):
+        return "audio/mpeg"
+    if url.endswith(".wav"):
+        return "audio/wav"
+    if url.endswith(".weba"):
+        return "audio/webm"
+
+    return "text/html"
+
+
 def replace_url_in_tag(content: str, new_url: str, attribute: str) -> str:
     try:
         soup = BeautifulSoup(content, "html.parser")

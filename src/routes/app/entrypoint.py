@@ -8,6 +8,7 @@ from flask import Response
 from models.docker.client import Client as DockerClient
 from models.redis.client import Client as RedisClient
 from models.redis.db import DB as RedisDB
+from utils.proxy import detect_file_type
 from utils.proxy import ProxySession
 from utils.proxy import replace_content
 
@@ -77,7 +78,12 @@ def proxy(service, subpath):
         response_headers.append(
             ('Set-Cookie', f'{cookie.name}={cookie.value}; Path=/'))
 
-    return Response(replace_content(response.content, f"/app/{service}"), response.status_code, response_headers)
+    content_type = detect_file_type(target_url)
+
+    if content_type != 'text/html':
+        return Response(response.content, response.status_code, response_headers, content_type=content_type)
+
+    return Response(replace_content(response.content, f"/app/{service}"), response.status_code, response_headers, content_type=content_type)
 
 
 def register_plugin(app):
